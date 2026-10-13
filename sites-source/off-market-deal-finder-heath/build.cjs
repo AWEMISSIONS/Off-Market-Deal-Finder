@@ -1,0 +1,3 @@
+const fs=require('node:fs'),path=require('node:path');
+const assets={};for(const name of ['index.html','desk.js','desk.css','deal-core.js','listings.json','buyers.json']){assets['/'+name]={body:fs.readFileSync('dist/'+name,'utf8'),type:({'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.json':'application/json'})[path.extname(name)]};}
+fs.mkdirSync('dist/server',{recursive:true});fs.writeFileSync('dist/server/assets.mjs','export default '+JSON.stringify(assets)+';');fs.copyFileSync('worker.mjs','dist/server/index.js');fs.copyFileSync('source-adapter.mjs','dist/server/source-adapter.mjs');console.log('Prepared Worker with embedded static assets and public-source read endpoints.');
